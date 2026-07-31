@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Academy | Kubernetes Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; line-height: 1.6; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        
+        .watermark {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 4rem; font-weight: 900; color: rgba(15, 23, 42, 0.03); z-index: -1;
+            pointer-events: none; white-space: nowrap; user-select: none;
+        }
+
+        .cmd-block { background-color: #0f172a; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .cmd-header { background-color: #1e293b; padding: 10px 16px; font-size: 0.75rem; color: #94a3b8; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; }
+        .cmd-content { padding: 16px; color: #38bdf8; font-family: 'Fira Code', monospace; font-size: 0.875rem; overflow-x: auto; white-space: pre; }
+        
+        .btn-copy { background: #334155; border: none; color: #f8fafc; padding: 4px 12px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; transition: 0.2s; font-weight: bold; display: flex; align-items: center; gap: 6px;}
+        .btn-copy:hover { background: #475569; }
+
+        @media print { 
+            body { background: white; } 
+            .watermark { color: rgba(15, 23, 42, 0.05) !important; print-color-adjust: exact; } 
+            .cmd-block { box-shadow: none; break-inside: avoid; border: 1px solid #ccc; } 
+            .btn-copy { display: none; }
+            .avoid-break { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen relative flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-900">
+
+    <div class="watermark">kuldeephimachal83@gmail.com</div>
+
+    <!-- Navigation -->
+    <nav class="border-b border-slate-200 bg-white/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-md font-bold">
+                    <i class="fa-solid fa-dharmachakra text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold tracking-tight text-slate-900">DevOps Academy</h1>
+                    <p class="text-[10px] text-indigo-600 font-mono tracking-wider font-bold">KUBERNETES MASTERCLASS</p>
+                </div>
+            </div>
+            <div class="hidden sm:block">
+                <span class="px-3 py-1 rounded-full text-[10px] font-mono bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold">ZERO TO HERO</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        
+        <!-- Header -->
+        <header class="mb-12 text-center max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Kubernetes (K8s)</h1>
+            <p class="text-slate-600 leading-relaxed text-lg">
+                Understanding container orchestration through real-world DevOps scenarios. Learn how massive companies scale, heal, and deploy applications automatically.
+            </p>
+        </header>
+
+        <!-- ========================================== -->
+        <!-- 1. CORE CONCEPT                            -->
+        <!-- ========================================== -->
+        <section class="mb-16 avoid-break">
+            <div class="flex items-center gap-3 mb-6 border-b-2 border-indigo-100 pb-2">
+                <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
+                <h2 class="text-2xl font-bold text-slate-800">The Problem & The Solution</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-sky-50 p-6 rounded-2xl border border-sky-100 flex flex-col items-start gap-4">
+                    <div class="text-4xl text-sky-500"><i class="fa-brands fa-docker"></i></div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-lg">Docker (The Delivery Truck)</h3>
+                        <p class="text-sm text-slate-600 mt-2">Docker perfectly packages your application (frontend, backend, database) so it runs anywhere. But running <code>docker run</code> manually only spins up <strong>one</strong> container on <strong>one</strong> server.</p>
+                    </div>
+                </div>
+                <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100 flex flex-col items-start gap-4">
+                    <div class="text-4xl text-indigo-600"><i class="fa-solid fa-dharmachakra"></i></div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-lg">Kubernetes (The Logistics Manager)</h3>
+                        <p class="text-sm text-slate-600 mt-2">Kubernetes is the intelligent manager. It controls thousands of Docker trucks across multiple servers. If a truck breaks down, Kubernetes instantly replaces it automatically.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 2. REAL WORLD EXAMPLES                     -->
+        <!-- ========================================== -->
+        <section class="mb-16 avoid-break">
+            <div class="flex items-center gap-3 mb-6 border-b-2 border-blue-100 pb-2">
+                <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
+                <h2 class="text-2xl font-bold text-slate-800">Real-World DevOps Scenarios</h2>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Example 1: Big Billion Days -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">Auto-Scaling</div>
+                    <h3 class="font-bold text-slate-900 text-xl mb-2"><i class="fa-solid fa-cart-shopping text-blue-500 mr-2"></i> Flipkart Big Billion Days</h3>
+                    <p class="text-slate-600 text-sm mb-4">
+                        On a normal Tuesday, Flipkart might need <strong>10 Backend Containers</strong> to handle user traffic.<br>
+                        At exactly midnight on sale day, 5 million users log in simultaneously.
+                    </p>
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-sm text-slate-700">
+                        <strong class="text-emerald-600">How K8s Solves it:</strong> You configure a rule: <em>"If CPU usage goes above 80%, add more containers."</em> Kubernetes detects the massive traffic spike and automatically spins up <strong>500 containers</strong> in seconds to prevent the site from crashing. When the sale ends, it deletes them to save AWS server costs.
+                    </div>
+                </div>
+
+                <!-- Example 2: Server Crash -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">Self-Healing</div>
+                    <h3 class="font-bold text-slate-900 text-xl mb-2"><i class="fa-solid fa-fire text-rose-500 mr-2"></i> Zomato Server Crash</h3>
+                    <p class="text-slate-600 text-sm mb-4">
+                        You have 3 servers running the Payment microservice. Suddenly, a hardware failure causes Server #2 to catch fire and die completely.
+                    </p>
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-sm text-slate-700">
+                        <strong class="text-emerald-600">How K8s Solves it:</strong> You told K8s, <em>"I ALWAYS want 3 Payment containers running."</em> Within milliseconds of the crash, Kubernetes notices you only have 2 left. It instantly provisions a brand new Payment container on a healthy server. The customer ordering food never even notices an error.
+                    </div>
+                </div>
+
+                <!-- Example 3: Netflix Update -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">Zero-Downtime</div>
+                    <h3 class="font-bold text-slate-900 text-xl mb-2"><i class="fa-solid fa-film text-purple-500 mr-2"></i> Netflix Updates</h3>
+                    <p class="text-slate-600 text-sm mb-4">
+                        Netflix wants to release a new UI update. If they shut down the servers to install the update, millions of people watching movies will get disconnected.
+                    </p>
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-sm text-slate-700">
+                        <strong class="text-emerald-600">How K8s Solves it:</strong> <strong>Rolling Updates.</strong> K8s spins up Version 2 containers alongside Version 1. It slowly shifts user traffic to Version 2. Once Version 2 is stable, it deletes Version 1. Users experience zero offline time.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 3. PROS vs CONS                            -->
+        <!-- ========================================== -->
+        <section class="mb-16 avoid-break">
+            <div class="flex items-center gap-3 mb-6 border-b-2 border-emerald-100 pb-2">
+                <span class="bg-emerald-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</span>
+                <h2 class="text-2xl font-bold text-slate-800">Pros, Cons & When to Use It</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- PROS -->
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                    <h3 class="font-bold text-emerald-900 text-lg mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-thumbs-up"></i> The Advantages
+                    </h3>
+                    <ul class="space-y-3 text-sm text-emerald-800">
+                        <li><strong>High Availability:</strong> Applications almost never go offline due to self-healing.</li>
+                        <li><strong>Infinite Scaling:</strong> Easily handles unpredictable global traffic spikes.</li>
+                        <li><strong>Microservice Friendly:</strong> Perfectly manages complex apps split into 50+ different pieces.</li>
+                    </ul>
+                </div>
+
+                <!-- CONS -->
+                <div class="bg-rose-50 p-6 rounded-xl border border-rose-200">
+                    <h3 class="font-bold text-rose-900 text-lg mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-thumbs-down"></i> The Disadvantages
+                    </h3>
+                    <ul class="space-y-3 text-sm text-rose-800">
+                        <li><strong>Extremely Steep Learning Curve:</strong> Complex YAML files and heavy architecture.</li>
+                        <li><strong>High Infrastructure Cost:</strong> Running a minimum K8s cluster on AWS (EKS) costs $70+/month even if empty.</li>
+                        <li><strong>Overkill for Small Apps:</strong> Like buying a Boeing 747 to drive to the grocery store.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg text-sm text-amber-900">
+                <strong>Rule of Thumb:</strong> Do NOT use Kubernetes for a simple college project, personal blog, or small startup. Use standard Docker or PM2. <strong>ONLY use Kubernetes</strong> when your app is huge, traffic is massive, and downtime costs millions of dollars.
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 4. CORE COMPONENTS                         -->
+        <!-- ========================================== -->
+        <section class="mb-16 avoid-break">
+            <div class="flex items-center gap-3 mb-6 border-b-2 border-purple-100 pb-2">
+                <span class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">4</span>
+                <h2 class="text-2xl font-bold text-slate-800">The 4 Core Architectural Pillars</h2>
+            </div>
+            
+            <!-- Flow Diagram -->
+            <div class="bg-slate-900 text-slate-300 p-6 rounded-2xl mb-8 flex flex-wrap justify-center items-center gap-4 text-sm font-bold shadow-lg">
+                <div class="text-center"><i class="fa-solid fa-user block text-xl mb-1 text-slate-400"></i> User</div>
+                <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                <div class="text-center"><i class="fa-solid fa-route block text-xl mb-1 text-purple-400"></i> Ingress</div>
+                <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                <div class="text-center"><i class="fa-solid fa-network-wired block text-xl mb-1 text-sky-400"></i> Service</div>
+                <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                <div class="text-center"><i class="fa-solid fa-cube block text-xl mb-1 text-emerald-400"></i> Pod (App)</div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-6">
+                <!-- Pod -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-cube text-emerald-500"></i> 1. Pod (The Wrapper)</h3>
+                    <p class="text-sm text-slate-600">Kubernetes does not run Docker containers directly. It wraps the container inside a <strong>Pod</strong>. A Pod is the smallest unit in K8s. Usually: 1 Pod = 1 Container.</p>
+                </div>
+
+                <!-- Deployment -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-users-gear text-indigo-500"></i> 2. Deployment (The Boss)</h3>
+                    <p class="text-sm text-slate-600">You never create a Pod manually. You create a Deployment and tell it: <em>"I want 3 Pods running."</em> If a Pod dies, the Deployment acts like a boss and hires a replacement instantly.</p>
+                </div>
+
+                <!-- Service -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-network-wired text-sky-500"></i> 3. Service (The Static IP)</h3>
+                    <p class="text-sm text-slate-600">Because Pods die and restart constantly, their IP addresses change every second. A <strong>Service</strong> sits in front of the Pods and provides ONE permanent, unchanging IP address for other apps to talk to.</p>
+                </div>
+
+                <!-- Ingress -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-route text-purple-500"></i> 4. Ingress (The Traffic Cop)</h3>
+                    <p class="text-sm text-slate-600">It looks at the URL the user typed and routes traffic. Example: If they type <code>netflix.com/login</code>, it routes to the Auth Service. If they type <code>netflix.com/movies</code>, it routes to the Streaming Service.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 5. PRACTICAL LAB                           -->
+        <!-- ========================================== -->
+        <section class="mb-16 avoid-break">
+            <div class="flex items-center gap-3 mb-6 border-b-2 border-teal-100 pb-2">
+                <span class="bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">5</span>
+                <h2 class="text-2xl font-bold text-slate-800">Practical Lab: Deploying an App</h2>
+            </div>
+            
+            <p class="text-sm text-slate-600 mb-6">Let's prove the magic works. We will write a declarative YAML blueprint asking Kubernetes to run 3 copies of an Nginx web server, and expose it to the internet.</p>
+
+            <!-- Step 1 -->
+            <div class="mb-8">
+                <h3 class="text-base font-bold text-slate-800 mb-2">Step 1: Write the Blueprint (Deployment YAML)</h3>
+                <p class="text-xs text-slate-500 mb-3">Create a file named <code>app-deployment.yaml</code>. This instructs the K8s "Boss" to maintain 3 replicas of the app.</p>
+                <div class="cmd-block">
+                    <div class="cmd-header"><span>app-deployment.yaml</span> <button class="btn-copy" onclick="copyText('yaml-deploy')"><i class="fa-regular fa-copy"></i> Copy</button></div>
+                    <div class="cmd-content text-teal-300" id="yaml-deploy">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-web-app
+spec:
+  replicas: 3               <span class="text-slate-500"># We want 3 identical containers running!</span>
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest <span class="text-slate-500"># The Docker image to use</span>
+        ports:
+        - containerPort: 80</div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="mb-8">
+                <h3 class="text-base font-bold text-slate-800 mb-2">Step 2: Tell Kubernetes to Build It</h3>
+                <p class="text-xs text-slate-500 mb-3">We use the <code>kubectl</code> command-line tool to talk to our Kubernetes cluster.</p>
+                <div class="cmd-block">
+                    <div class="cmd-header"><span>Terminal</span> <button class="btn-copy" onclick="copyText('cmd-apply')"><i class="fa-regular fa-copy"></i> Copy</button></div>
+                    <div class="cmd-content" id="cmd-apply"><span class="text-slate-500"># Apply the blueprint to the cluster</span>
+kubectl apply -f app-deployment.yaml
+
+<span class="text-slate-500"># Verify that 3 Pods are now running</span>
+kubectl get pods</div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="mb-8">
+                <h3 class="text-base font-bold text-slate-800 mb-2">Step 3: Expose it to the Internet (Service)</h3>
+                <p class="text-xs text-slate-500 mb-3">The pods are running, but invisible to the outside world. We must create a LoadBalancer Service to route internet traffic to them.</p>
+                <div class="cmd-block mb-4">
+                    <div class="cmd-header"><span>Terminal</span> <button class="btn-copy" onclick="copyText('cmd-expose')"><i class="fa-regular fa-copy"></i> Copy</button></div>
+                    <div class="cmd-content" id="cmd-expose"><span class="text-slate-500"># Create a Load Balancer Service</span>
+kubectl expose deployment my-web-app --type=LoadBalancer --port=80 --target-port=80
+
+<span class="text-slate-500"># Get the public IP address to view the website in your browser</span>
+kubectl get svc</div>
+                </div>
+            </div>
+            
+            <div class="bg-indigo-50 border border-indigo-200 p-5 rounded-xl">
+                <h4 class="font-bold text-indigo-900 mb-2"><i class="fa-solid fa-wand-magic-sparkles mr-2 text-indigo-600"></i> Try the Self-Healing Magic</h4>
+                <p class="text-sm text-slate-700">
+                    Run <code>kubectl get pods</code> and copy the name of one pod. <br>
+                    Force-delete it: <code>kubectl delete pod &lt;paste-pod-name&gt;</code> <br>
+                    Instantly run <code>kubectl get pods</code> again. You will see K8s has already created a brand new pod (Age: 1s) to replace the one you killed!
+                </p>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 6. INTERVIEW Q&A                           -->
+        <!-- ========================================== -->
+        <section class="avoid-break border-t border-slate-200 pt-10">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">Top 5 Interview Questions</h2>
+            
+            <div class="space-y-4 max-w-4xl mx-auto">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Q1. What is the fundamental difference between Docker and Kubernetes?</h4>
+                    <p class="text-sm text-slate-600"><strong>Answer:</strong> Docker is a containerization engine used to build and run individual containers on a single machine. Kubernetes is an orchestration platform that manages, scales, and heals thousands of Docker containers across multiple clustered servers.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Q2. What is a Pod?</h4>
+                    <p class="text-sm text-slate-600"><strong>Answer:</strong> A Pod is the smallest and most basic deployable object in Kubernetes. It represents a single instance of a running process in your cluster and typically contains one Docker container (though it can contain multiple tightly-coupled containers).</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Q3. Why do we use a Deployment instead of creating Pods directly?</h4>
+                    <p class="text-sm text-slate-600"><strong>Answer:</strong> If a Pod is created manually and it crashes, it dies forever. A Deployment is a controller that guarantees a specified number of Pod replicas are running at all times. It enables self-healing and zero-downtime rolling updates.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Q4. How does Kubernetes provide Zero-Downtime deployments?</h4>
+                    <p class="text-sm text-slate-600"><strong>Answer:</strong> Using "Rolling Updates". When you push a new version of an app, K8s slowly spins up new Pods with the V2 code. Once the V2 Pods are healthy, it routes traffic to them and terminates the old V1 Pods one by one, ensuring the application never goes completely offline.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <h4 class="font-bold text-slate-900 text-sm mb-1 text-indigo-700">Q5. What is the difference between a ConfigMap and a Secret?</h4>
+                    <p class="text-sm text-slate-600"><strong>Answer:</strong> Both are used to decouple configuration from the Docker image. A ConfigMap is used to store plain-text, non-sensitive data (like PORT numbers or URLs). A Secret is used to securely store sensitive data (like Database Passwords, SSH keys, or TLS certificates) using Base64 encoding.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 px-4 py-3 bg-slate-800 text-white font-bold text-xs rounded-xl shadow-lg transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+        <i class="fa-solid fa-check text-emerald-400"></i> Copied to clipboard!
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-8 text-center text-slate-500 text-xs bg-white mt-12">
+        <p class="font-bold text-slate-600 uppercase tracking-widest mb-1">Kubernetes Masterclass Guide • Authored by DevOps Eng KULDEEP</p>
+        <p class="font-mono text-indigo-500">kuldeephimachal83@gmail.com</p>
+    </footer>
+
+    <script>
+        function copyText(elementId) {
+            const el = document.getElementById(elementId);
+            // Extract innerText for clean copy
+            let textToCopy = el.innerText.trim();
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0', 'translate-y-4');
+                toast.classList.add('opacity-100', 'translate-y-0');
+
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'translate-y-4');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
